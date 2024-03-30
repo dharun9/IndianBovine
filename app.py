@@ -7,7 +7,7 @@ from ultralytics import YOLO
 # Load the YOLO model
 model = YOLO("cattle2.pt")
 
-@st.cache_resources 
+
 # Function to perform object detection and annotation
 def perform_detection(image, confidence_threshold):
     results = model(image)[0]
