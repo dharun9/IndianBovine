@@ -7,7 +7,6 @@ from ultralytics import YOLO
 # Load the YOLO model
 model = YOLO("cattle.pt")
 
-
 # Function to perform object detection and annotation
 def perform_detection(image, confidence_threshold):
     results = model(image)[0]
@@ -26,8 +25,11 @@ def perform_detection(image, confidence_threshold):
         scene=image, detections=detections)
     annotated_image = label_annotator.annotate(
         scene=annotated_image, detections=detections, labels=labels)
+    
+    # Get the detected breed
+    detected_breed = model.model.names[detections.class_id[0]]
 
-    return annotated_image
+    return annotated_image, detected_breed
 
 # Streamlit code
 st.title("Indian Bolivian Breed Detection")
@@ -46,13 +48,14 @@ if predict_button and uploaded_image is not None:
     image = cv2.imdecode(np.fromstring(uploaded_image.read(), np.uint8), cv2.IMREAD_COLOR)
 
     # Perform object detection and annotation
-    annotated_image = perform_detection(image, confidence_threshold)
+    annotated_image, detected_breed = perform_detection(image, confidence_threshold)
 
     # Display annotated image
     st.image(annotated_image, channels="BGR", caption="Annotated Image")
+    
+    # Print the detected breed
+    st.write(f"Detected Breed: {detected_breed}")
 
 # Run YOLO prediction
 results = model.predict(stream=True, imgsz=512)
-
-# Stop Streamlit app
 st.stop()
