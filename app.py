@@ -5,7 +5,7 @@ import numpy as np
 from ultralytics import YOLO
 
 # Load the YOLO model
-model = YOLO("cattle.pt")
+model = YOLO("cattle2.pt")
 
 @st.cache_resources 
 # Function to perform object detection and annotation
