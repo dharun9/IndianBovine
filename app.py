@@ -52,3 +52,6 @@ if predict_button and uploaded_image is not None:
 
 # Run YOLO prediction
 results = model.predict(stream=True, imgsz=512)
+
+# Stop Streamlit app
+st.stop()
